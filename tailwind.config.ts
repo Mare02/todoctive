@@ -24,7 +24,7 @@ const config: Config = {
         colors: {
           primary: {
             DEFAULT: "#000000",
-            foreground: "#000000",
+            foreground: "white",
           },
           focus: "#BEF264",
         },

@@ -3,25 +3,22 @@ import prisma from '@/services/db/prismaSingleton';
 
 export async function DELETE(req: NextRequest, { params }: { params: { taskId: string } }) {
   try {
-    const taskId = params.taskId;
-    const deletedTask = await prisma.tasks.delete({
+    await prisma.tasks.delete({
       where: {
-        id: +taskId,
+        id: +params.taskId,
       },
     });
 
-
-    return NextResponse.json({ msg: 'Task deleted successfully', data: taskId});
-    // return NextResponse.json({ msg: 'Task deleted successfully', data: deletedTask });
+    return NextResponse.json({ msg: 'Task deleted successfully'});
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ msg: 'Internal Server Error' }, { status: 500 });
   }
 }
 
 export async function PUT(
     req: NextRequest,
-    { params, body }: { params: { taskId: string },
+    { params }: { params: { taskId: string },
     body: { name: string, description: string, finished: boolean }}
 ) {
   try {
@@ -42,6 +39,6 @@ export async function PUT(
     return NextResponse.json({ msg: 'Task updated successfully', data: updatedTask });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ msg: 'Internal Server Error' }, { status: 500 });
   }
 }

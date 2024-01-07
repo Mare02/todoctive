@@ -2,16 +2,14 @@
 import { Task } from '@/models/Task/TaskModel';
 import ITaskService from '@/services/Task/ITaskService';
 import IEditTask from '@/interfaces/Task/IEditTask';
-import { baseUrl } from '@/utils/useBaseUrl';
 
 export class TaskService implements ITaskService {
   async getAllTasks(): Promise<Task[]> {
     try {
-      const response = await fetch(`${baseUrl}/api/tasks`);
+      const response = await fetch(`/api/tasks`);
       return response.json();
     } catch (error) {
-      console.error(error);
-      throw error;
+      throw new Error("Failed to get data: " + (error as Error).message);
     }
   }
 
@@ -26,6 +24,25 @@ export class TaskService implements ITaskService {
     return mockTask;
   }
 
+  async createTask(newTaskData: IEditTask): Promise<Task> {
+    try {
+      const response = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: newTaskData.name,
+          description: newTaskData.description
+        }),
+      });
+
+      return response.json();
+    } catch (error) {
+      throw new Error("Failed to get data: " + (error as Error).message);
+    }
+  }
+
   async editTask(newTaskData: IEditTask): Promise<Task> {
     const mockTask: Task = {
       id: '2',
@@ -38,7 +55,14 @@ export class TaskService implements ITaskService {
   }
 
 
-  deleteTask(taskId: string): void {
-
+  async deleteTask(taskId: string): Promise<{ msg: string; }> {
+    try {
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: 'DELETE',
+      });
+      return response.json();
+    } catch (error) {
+      throw new Error("Failed to delete task: " + (error as Error).message);
+    }
   }
 }

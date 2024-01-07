@@ -1,0 +1,1 @@
+export type IDeleteTask = (id: string) => Promise<{ msg: string }>;
