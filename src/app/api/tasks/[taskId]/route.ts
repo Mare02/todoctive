@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
-import prisma from '@/lib/db';
+import prisma from '@/services/db/prismaSingleton';
 
 export async function DELETE(req: NextRequest, { params }: { params: { taskId: string } }) {
   try {

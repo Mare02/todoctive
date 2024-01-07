@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import prisma from '@/services/db/prismaSingleton';
 
 export async function GET() {
   try {
-    const tasks = await prisma.tasks.findMany(); // Retrieve all tasks from the database
+    const tasks = await prisma.tasks.findMany();
     return NextResponse.json(tasks);
   } catch (error) {
     console.error(error);
@@ -16,6 +16,7 @@ export async function POST(req: Request) {
     // Retrieve the task details from the request body
     const { name, description } = await req.json();
     const newTask = await prisma.tasks.create({
+
       data: {
         name,
         description,

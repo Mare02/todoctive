@@ -1,7 +1,5 @@
-export type Task = {
-  id: string;
+export default interface IEditTask {
   name: string;
   description: string;
   finished: boolean;
-  createdAt: Date;
 }
