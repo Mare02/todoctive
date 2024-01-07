@@ -1,19 +1,19 @@
 // TaskService.ts
 import { Task } from '@/models/Task/TaskModel';
+import { ApiMultiTaskResponse } from '@/models/response/ApiMultiTaskResponse';
+import { ApiSingleTaskResponse } from '@/models/response/ApiSingleTaskResponse';
+import { ApiMessageResponse } from '@/models/response/ApiMessageResponse';
 import ITaskService from '@/services/Task/ITaskService';
 import IEditTask from '@/interfaces/Task/IEditTask';
+import ICreateTask from '@/interfaces/Task/ICreateTask';
 
 export class TaskService implements ITaskService {
-  async getAllTasks(): Promise<Task[]> {
-    try {
-      const response = await fetch(`/api/tasks`);
-      return response.json();
-    } catch (error) {
-      throw new Error("Failed to get data: " + (error as Error).message);
-    }
+  async getAllTasks(): Promise<ApiMultiTaskResponse> {
+    const response = await fetch(`/api/tasks`);
+    return await response.json()
   }
 
-  async getTaskById(taskId: string): Promise<Task> {
+  async getTaskById(taskId: string): Promise<ApiSingleTaskResponse> {
     const mockTask: Task = {
       id: '1',
       name: 'Mock Task',
@@ -21,10 +21,10 @@ export class TaskService implements ITaskService {
       finished: false,
       createdAt: new Date(),
     };
-    return mockTask;
+    return {msg: 'test', data: mockTask};
   }
 
-  async createTask(newTaskData: IEditTask): Promise<Task> {
+  async createTask(newTaskData: ICreateTask): Promise<ApiSingleTaskResponse> {
     try {
       const response = await fetch('/api/tasks', {
         method: 'POST',
@@ -36,31 +36,35 @@ export class TaskService implements ITaskService {
           description: newTaskData.description
         }),
       });
-
-      return response.json();
+      return await response.json();
     } catch (error) {
       throw new Error("Failed to get data: " + (error as Error).message);
     }
   }
 
-  async editTask(newTaskData: IEditTask): Promise<Task> {
-    const mockTask: Task = {
-      id: '2',
-      name: newTaskData.name,
-      description: newTaskData.description,
-      finished: newTaskData.finished,
-      createdAt: new Date(),
-    };
-    return mockTask;
+  async editTask(newTaskData: IEditTask): Promise<ApiSingleTaskResponse> {
+    try {
+      const response = await fetch(`/api/tasks/${newTaskData.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTaskData),
+      });
+
+      return await response.json();
+    } catch (error) {
+      throw new Error("Failed to delete task: " + (error as Error).message);
+    }
   }
 
 
-  async deleteTask(taskId: string): Promise<{ msg: string; }> {
+  async deleteTask(taskId: string): Promise<ApiMessageResponse> {
     try {
       const response = await fetch(`/api/tasks/${taskId}`, {
         method: 'DELETE',
       });
-      return response.json();
+      return await response.json();
     } catch (error) {
       throw new Error("Failed to delete task: " + (error as Error).message);
     }

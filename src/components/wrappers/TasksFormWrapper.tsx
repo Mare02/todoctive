@@ -2,21 +2,21 @@
 
 import { useState, useEffect, ReactNode, FC } from 'react';
 import { Task } from '@/models/Task/TaskModel';
-import { ITasksWrapperChildProps } from '@/interfaces/Task/ITasksWrapperChildProps';
+import { ITasksFormWrapperProps } from '@/interfaces/Task/ITasksFormWrapperProps';
 import { TaskService } from "@/services/Task/TaskService";
 const taskService = new TaskService();
 
 type TasksWrapperProps = {
-  children: (arg: ITasksWrapperChildProps) => ReactNode;
+  children: (arg: ITasksFormWrapperProps) => ReactNode;
 };
 
-export const TasksWrapper: FC<TasksWrapperProps> = ({ children }) => {
+export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     taskService.getAllTasks()
       .then((res) => {
-        setTasks(res);
+        setTasks(res.data);
         console.log(res);
       })
       .catch(error => console.error(error));
@@ -31,20 +31,21 @@ export const TasksWrapper: FC<TasksWrapperProps> = ({ children }) => {
       .catch(error => console.error(error));
   }
 
-  // const createTask = (name: string, description: string, finished: boolean) => {
-  //   taskService.createTask({ name, description, finished })
-  //     .then(res => {
-  //       console.log(res);
-  //       setTasks([...tasks, res]);
-  //     })
-  //     .catch(error => console.error(error));
-  // }
+  const createTask = (name: string, description: string) => {
+    taskService.createTask({ name, description })
+      .then(res => {
+        console.log(res);
+        setTasks(prevTasks => [...prevTasks, res.data]);
+      })
+      .catch(error => console.error(error));
+  }
 
   return (
     <>
       {children({
         tasks,
         deleteTask,
+        createTask,
       })}
     </>
   );

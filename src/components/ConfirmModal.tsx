@@ -3,6 +3,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 interface ConfirmModalProps {
   message: string;
   title?: string;
+  confirmText?: string;
   onCancel: () => void;
   onConfirm: () => void;
   isOpen: boolean;
@@ -25,7 +26,7 @@ export function ConfirmModal(props: ConfirmModalProps) {
               Cancel
             </Button>
             <Button color="primary" onPress={props.onConfirm}>
-              Save
+              {props.confirmText ? props.confirmText : 'Save'}
             </Button>
           </ModalFooter>
         </>

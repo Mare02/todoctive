@@ -4,7 +4,7 @@ import prisma from '@/services/db/prismaSingleton';
 export async function GET() {
   try {
     const tasks = await prisma.tasks.findMany();
-    return NextResponse.json(tasks);
+    return NextResponse.json({ msg: 'Tasks retrieved successfully', data: tasks });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ msg: 'Internal Server Error' }, { status: 500 })
@@ -16,7 +16,6 @@ export async function POST(req: Request) {
     // Retrieve the task details from the request body
     const { name, description } = await req.json();
     const newTask = await prisma.tasks.create({
-
       data: {
         name,
         description,
