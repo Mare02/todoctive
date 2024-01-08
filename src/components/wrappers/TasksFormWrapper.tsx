@@ -3,11 +3,18 @@
 import { TaskService } from "@/services/Task/TaskService";
 import { useState, useEffect, ReactNode, FC } from 'react';
 import { Task } from '@/models/Task/TaskModel';
-import { ITasksFormWrapperProps } from '@/interfaces/Task/ITasksFormWrapperProps';
 import Modal from '@/components/Modal';
 import SingleTaskForm from '@/components/SingleTaskForm';
 import IEditTask from "@/interfaces/Task/IEditTask";
 import ICreateTask from "@/interfaces/Task/ICreateTask";
+
+interface ITasksFormWrapperProps {
+  tasks: Task[];
+  createTask: (createTaskData: ICreateTask) => void;
+  editTask: (editTaskData: IEditTask) => void;
+  onDeleteTask: (taskId: string) => void;
+  onEditTask: (taskData: IEditTask) => void;
+};
 
 type TasksWrapperProps = {
   children: (arg: ITasksFormWrapperProps) => ReactNode;
@@ -19,14 +26,15 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [deleteTaskId, setDeleteTaskId] = useState('');
   const [taskToEdit, setTaskToEdit] = useState<IEditTask | null>(null);
-  // const [editTaskName, setEditTaskName] = useState('');
-  // const [editTaskDescrition, setEditTaskDescrition] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const taskService = new TaskService();
 
   useEffect(() => {
+    setIsLoading(true);
     taskService.getAllTasks()
       .then((res) => {
+        setIsLoading(false);
         setTasks(res.data);
         console.log(res);
       })
@@ -53,8 +61,11 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
   }
 
   const editTask = (newTaskData: IEditTask) => {
+    setIsLoading(true);
     taskService.editTask(newTaskData)
       .then(res => {
+        console.log(res);
+        setIsLoading(false);
         setTasks(prevTasks => prevTasks.map(task => task.id === newTaskData.taskId ? {...task, ...res.data} : task));
         setIsEditModalOpen(false);
       })
@@ -99,6 +110,7 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
         title="Edit task"
         confirmText="Save"
         isOpen={isEditModalOpen}
+        showProgress={isLoading}
         onCancel={() => {
           setIsEditModalOpen(false);
         }}

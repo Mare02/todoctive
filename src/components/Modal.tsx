@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 
 interface ConfirmModalProps {
   message: string;
@@ -9,10 +9,10 @@ interface ConfirmModalProps {
   onConfirm: () => void;
   isOpen: boolean;
   showCancel?: boolean;
+  showProgress?: boolean;
   children?: ReactNode;
 }
 
-// export function ConfirmModal({ message, onCancel, onConfirm }: ConfirmModalProps) {
 export default function ModalComponent(props: ConfirmModalProps) {
   return (
     <Modal isOpen={props.isOpen} onClose={props.onCancel} >
@@ -22,22 +22,23 @@ export default function ModalComponent(props: ConfirmModalProps) {
             {props.title ? props.title : 'Modal'}
           </ModalHeader>
           <ModalBody>
-            {
-              props.children
-                ? props.children
-                : <p>{props.message}</p>
-            }
+            <div className={props.showProgress ? 'disabled' : ''}>
+              {
+                props.children
+                  ? props.children
+                  : <p>{props.message}</p>
+              }
+            </div>
           </ModalBody>
           <ModalFooter>
             {
-              props.showCancel
-                ? <Button color="secondary" variant="light" onPress={props.onCancel}>Cancel</Button>
-                : null
+              props.showCancel &&
+                <Button color="secondary" variant="light" onPress={props.onCancel}>Cancel</Button>
             }
             <Button color="danger" variant="light" onPress={props.onCancel}>
               Cancel
             </Button>
-            <Button color="primary" onPress={props.onConfirm}>
+            <Button color="primary" onPress={props.onConfirm} isLoading={props.showProgress}>
               {props.confirmText ? props.confirmText : 'Save'}
             </Button>
           </ModalFooter>

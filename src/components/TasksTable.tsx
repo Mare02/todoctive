@@ -1,10 +1,17 @@
 'use client';
 
-import { ITasksFormWrapperProps } from '@/interfaces/Task/ITasksFormWrapperProps';
-import {Table, Button, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+import {Table, Button, TableHeader, TableColumn, TableBody, TableRow, TableCell, Skeleton} from "@nextui-org/react";
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
+import IEditTask from '@/interfaces/Task/IEditTask';
+import { Task } from '@/models/Task/TaskModel';
 
-export default function TasksTable(props: ITasksFormWrapperProps) {
+interface TaskTableProps {
+  tasks: Task[];
+  onDeleteTask: (taskId: string) => void;
+  onEditTask: (taskData: IEditTask) => void;
+}
+
+export default function TasksTable(props: TaskTableProps) {
   return (
     <>
       <h3 className='text-2xl font-semibold mb-2'>Your tasks</h3>
@@ -29,12 +36,14 @@ export default function TasksTable(props: ITasksFormWrapperProps) {
               </TableCell>
               <TableCell className='flex gap-2'>
                 <Button
-                  onPress={() => {props.onEditTask({
-                    taskId: task.id,
-                    name: task.name,
-                    description: task.description,
-                    finished: task.finished
-                  })}}
+                  onPress={() => {
+                    props.onEditTask({
+                      taskId: task.id,
+                      name: task.name,
+                      description: task.description,
+                      finished: task.finished
+                    })
+                  }}
                 >Edit</Button>
                 <Button
                   color="danger"

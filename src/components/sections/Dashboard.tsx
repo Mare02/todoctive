@@ -9,7 +9,7 @@ export default function TasksList() {
   return (
     <div>
       <TasksFormWrapper>
-        {({ tasks, onDeleteTask, onEditTask, createTask, editTask }) => (
+        {({ tasks, onDeleteTask, onEditTask, createTask }) => (
           <>
             <Card className='mb-10'>
               <CardHeader>Create task</CardHeader>
@@ -21,9 +21,7 @@ export default function TasksList() {
             <TasksTable
               tasks={tasks}
               onDeleteTask={onDeleteTask}
-              createTask={createTask}
               onEditTask={onEditTask}
-              editTask={editTask}
             />
           </>
         )}

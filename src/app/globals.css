@@ -8,3 +8,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.disabled {
+  @apply pointer-events-none opacity-50
+}
