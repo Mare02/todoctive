@@ -1,15 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { ITasksFormWrapperProps } from '@/interfaces/Task/ITasksFormWrapperProps';
 import {Table, Button, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
-import { ConfirmModal } from '@/components/ConfirmModal';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
 
 export default function TasksTable(props: ITasksFormWrapperProps) {
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [deleteTaskId, setDeleteTaskId] = useState('');
-
   return (
     <>
       <h3 className='text-2xl font-semibold mb-2'>Your tasks</h3>
@@ -33,37 +28,23 @@ export default function TasksTable(props: ITasksFormWrapperProps) {
                 )}
               </TableCell>
               <TableCell className='flex gap-2'>
-                <Button>Edit</Button>
+                <Button
+                  onPress={() => {props.onEditTask({
+                    taskId: task.id,
+                    name: task.name,
+                    description: task.description,
+                    finished: task.finished
+                  })}}
+                >Edit</Button>
                 <Button
                   color="danger"
-                  onPress={() => {
-                    setIsConfirmModalOpen(true);
-                    setDeleteTaskId(task.id);
-                  }}
+                  onPress={() => {props.onDeleteTask(task.id);}}
                 >Delete</Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-
-      {isConfirmModalOpen && (
-        <ConfirmModal
-          message="Are you sure you want to delete this task?"
-          title="Delete task"
-          confirmText="Delete"
-          isOpen={isConfirmModalOpen}
-          onCancel={() => {
-            setIsConfirmModalOpen(false);
-            setDeleteTaskId('');
-          }}
-          onConfirm={() => {
-            props.deleteTask(deleteTaskId)
-            setIsConfirmModalOpen(false);
-            setDeleteTaskId('');
-          }}
-        />
-      )}
     </>
   )
 }

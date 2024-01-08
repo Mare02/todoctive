@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 
 interface ConfirmModalProps {
@@ -7,10 +8,12 @@ interface ConfirmModalProps {
   onCancel: () => void;
   onConfirm: () => void;
   isOpen: boolean;
+  showCancel?: boolean;
+  children?: ReactNode;
 }
 
 // export function ConfirmModal({ message, onCancel, onConfirm }: ConfirmModalProps) {
-export function ConfirmModal(props: ConfirmModalProps) {
+export default function ModalComponent(props: ConfirmModalProps) {
   return (
     <Modal isOpen={props.isOpen} onClose={props.onCancel} >
       <ModalContent>
@@ -19,9 +22,18 @@ export function ConfirmModal(props: ConfirmModalProps) {
             {props.title ? props.title : 'Modal'}
           </ModalHeader>
           <ModalBody>
-            <p>{props.message}</p>
+            {
+              props.children
+                ? props.children
+                : <p>{props.message}</p>
+            }
           </ModalBody>
           <ModalFooter>
+            {
+              props.showCancel
+                ? <Button color="secondary" variant="light" onPress={props.onCancel}>Cancel</Button>
+                : null
+            }
             <Button color="danger" variant="light" onPress={props.onCancel}>
               Cancel
             </Button>

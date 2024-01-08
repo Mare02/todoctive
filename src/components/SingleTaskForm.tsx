@@ -1,41 +1,88 @@
-import { useState } from 'react';
-import { Card, CardHeader, CardBody, Input, Button } from '@nextui-org/react';
+import { useEffect, useState } from 'react';
+import { Input, Button, Checkbox } from '@nextui-org/react';
+import IEditTask from '@/interfaces/Task/IEditTask';
+import ICreateTask from '@/interfaces/Task/ICreateTask';
 
 interface SingleTaskFormProps {
-  onSubmit: (name: string, description: string) => void;
+  task?: IEditTask | null;
+  hideSubmit?: boolean;
+  onCreateSubmit?: (createTaskData: ICreateTask) => void;
+  onEditSubmit?: (editTaskData: IEditTask) => void;
+  onChange?: (editTaskData: IEditTask) => void;
 }
 
-export default function SingleTaskForm({ onSubmit }: SingleTaskFormProps) {
+export default function SingleTaskForm(props: SingleTaskFormProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [isFinished, setIsFinished] = useState(false);
+
+  useEffect(() => {
+    if (props.task) {
+      setName(props.task.name);
+      setDescription(props.task.description);
+      setIsFinished(props.task.finished);
+    }
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(name, description);
+    if (props.task && props.onEditSubmit) {
+      props.onEditSubmit({taskId: props.task.taskId, name, description, finished: isFinished});
+    } else if (props.onCreateSubmit) {
+      props.onCreateSubmit && props.onCreateSubmit({name, description});
+    }
+
     setName('');
     setDescription('');
+    setIsFinished(false);
   };
 
+  const handleInputChange = (value: string | boolean, field: string) => {
+    if (field === 'name') {
+      setName(value as string);
+    } else if (field === 'description') {
+      setDescription(value as string);
+    } else if (field === 'isFinished') {
+      setIsFinished(value as boolean);
+    }
+
+    if (props.task && props.onChange) {
+      props.onChange({
+        taskId: props.task.taskId,
+        name: field === 'name' ? value as string : name,
+        description: field === 'description' ? value as string : description,
+        finished: field === 'isFinished' ? value as boolean : isFinished
+      });
+    }
+  }
+
   return (
-    <Card>
-      <CardHeader>Create task</CardHeader>
-      <CardBody>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <Input
-            type="text"
-            label="Task name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Input
-            type="text"
-            label="Task description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <Button color="primary" type="submit">Submit</Button>
-        </form>
-      </CardBody>
-    </Card>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <Input
+        type="text"
+        label="Task name"
+        value={name}
+        onChange={(e) => handleInputChange(e.target.value, 'name')}
+      />
+      <Input
+        type="text"
+        label="Task description"
+        value={description}
+        onChange={(e) => handleInputChange(e.target.value, 'description')}
+      />
+      {
+        props.task &&
+        <Checkbox
+          isSelected={isFinished}
+          onValueChange={(e) => handleInputChange(e, 'isFinished')}
+          size="lg"
+        >Finished</Checkbox>
+      }
+
+      {
+        !props.hideSubmit &&
+        <Button color="primary" type="submit">Submit</Button>
+      }
+    </form>
   );
 }

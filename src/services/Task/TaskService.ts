@@ -44,7 +44,7 @@ export class TaskService implements ITaskService {
 
   async editTask(newTaskData: IEditTask): Promise<ApiSingleTaskResponse> {
     try {
-      const response = await fetch(`/api/tasks/${newTaskData.id}`, {
+      const response = await fetch(`/api/tasks/${newTaskData.taskId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

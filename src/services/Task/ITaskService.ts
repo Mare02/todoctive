@@ -1,5 +1,4 @@
 // ITaskService.ts
-import { Task } from '@/models/Task/TaskModel';
 import IEditTask from '@/interfaces/Task/IEditTask';
 import ICreateTask from '@/interfaces/Task/ICreateTask';
 import { ApiMultiTaskResponse } from '@/models/response/ApiMultiTaskResponse';
@@ -7,7 +6,7 @@ import { ApiSingleTaskResponse } from '@/models/response/ApiSingleTaskResponse';
 import { ApiMessageResponse } from '@/models/response/ApiMessageResponse';
 
 export default interface ITaskService {
-  getAllTasks():Promise<ApiMultiTaskResponse>;
+  getAllTasks(): Promise<ApiMultiTaskResponse>;
 
   getTaskById(taskId: string): Promise<ApiSingleTaskResponse>;
 

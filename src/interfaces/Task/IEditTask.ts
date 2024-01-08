@@ -1,5 +1,5 @@
 export default interface IEditTask {
-  id: string;
+  taskId: string;
   name: string;
   description: string;
   finished: boolean;
