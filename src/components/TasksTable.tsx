@@ -23,7 +23,7 @@ export default function TasksTable(props: TaskTableProps) {
           <TableColumn>ACTIONS</TableColumn>
         </TableHeader>
         <TableBody>
-          {props.tasks.map((task) => (
+          {props.tasks?.map((task) => (
             <TableRow key={task.id}>
               <TableCell>{task.name}</TableCell>
               <TableCell>{task.description}</TableCell>
