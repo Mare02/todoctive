@@ -42,10 +42,14 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
   }, []);
 
   const deleteTask = (taskId: string) => {
+    setIsLoading(true);
     taskService.deleteTask(taskId)
       .then(res => {
         console.log(res);
+        setIsLoading(false);
+        setIsConfirmModalOpen(false);
         setTasks(tasks.filter(task => task.id !== taskId));
+        setDeleteTaskId('');
       })
       .catch(error => console.error(error));
   }
@@ -66,7 +70,11 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
       .then(res => {
         console.log(res);
         setIsLoading(false);
-        setTasks(prevTasks => prevTasks.map(task => task.id === newTaskData.taskId ? {...task, ...res.data} : task));
+        setTasks(prevTasks => prevTasks.map(
+          task => task.id === newTaskData.taskId
+            ? {...task, ...res.data}
+            : task
+        ));
         setIsEditModalOpen(false);
       })
   }
@@ -94,14 +102,13 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
         title="Delete task"
         confirmText="Delete"
         isOpen={isConfirmModalOpen}
+        showProgress={isLoading}
         onCancel={() => {
           setIsConfirmModalOpen(false);
           setDeleteTaskId('');
         }}
         onConfirm={() => {
           deleteTask(deleteTaskId)
-          setIsConfirmModalOpen(false);
-          setDeleteTaskId('');
         }}
       />
 
@@ -125,8 +132,7 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
           onChange={(data) => {
             setTaskToEdit(data);
           }}
-        >
-        </SingleTaskForm>
+        />
       </Modal>
     </>
   );
