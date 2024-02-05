@@ -1,6 +1,6 @@
 'use client';
 
-import {Table, Button, TableHeader, TableColumn, TableBody, TableRow, TableCell, Skeleton} from "@nextui-org/react";
+import {Table, Button, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import IEditTask from '@/interfaces/Task/IEditTask';
 import { Task } from '@/models/Task/TaskModel';
