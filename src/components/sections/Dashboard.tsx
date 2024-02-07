@@ -18,11 +18,14 @@ export default function TasksList() {
               </CardBody>
             </Card>
 
-            <TasksTable
-              tasks={tasks}
-              onDeleteTask={onDeleteTask}
-              onEditTask={onEditTask}
-            />
+            {
+              Boolean(tasks.length) &&
+              <TasksTable
+                tasks={tasks}
+                onDeleteTask={onDeleteTask}
+                onEditTask={onEditTask}
+              />
+            }
           </>
         )}
       </TasksFormWrapper>

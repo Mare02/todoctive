@@ -24,7 +24,7 @@ export class TaskService implements ITaskService {
     return {msg: 'test', data: mockTask};
   }
 
-  async createTask(newTaskData: ICreateTask): Promise<ApiSingleTaskResponse> {
+  async createTask(newTaskData: ICreateTask): Promise<ApiSingleTaskResponse | void> {
     try {
       const response = await fetch('/api/tasks', {
         method: 'POST',
@@ -38,7 +38,7 @@ export class TaskService implements ITaskService {
       });
       return await response.json();
     } catch (error) {
-      throw new Error("Failed to get data: " + (error as Error).message);
+      console.error('create task error', error);
     }
   }
 

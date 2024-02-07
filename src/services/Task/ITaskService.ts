@@ -10,7 +10,7 @@ export default interface ITaskService {
 
   getTaskById(taskId: string): Promise<ApiSingleTaskResponse>;
 
-  createTask(newTaskData: ICreateTask): Promise<ApiSingleTaskResponse>;
+  createTask(newTaskData: ICreateTask): Promise<ApiSingleTaskResponse | void>;
 
   editTask(newTaskData: IEditTask): Promise<ApiSingleTaskResponse>;
 

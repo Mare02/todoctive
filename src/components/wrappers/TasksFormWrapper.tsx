@@ -82,9 +82,10 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
   const createTask = (createTaskData: ICreateTask) => {
     taskService.createTask(createTaskData)
       .then(res => {
-        setTasks(prevTasks => [...prevTasks, res.data]);
-      })
-      .catch(error => console.error(error));
+        if (res && res.data) {
+          setTasks(prevTasks => [...prevTasks, res.data]);
+        }
+      });
   }
 
   return (

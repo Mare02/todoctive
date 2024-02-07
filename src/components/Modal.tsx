@@ -22,7 +22,7 @@ export default function ModalComponent(props: ConfirmModalProps) {
             {props.title ? props.title : 'Modal'}
           </ModalHeader>
           <ModalBody>
-            <div className={props.showProgress ? 'disabled' : ''}>
+            <div className={(props.showProgress && props.children) ? 'disabled' : ''}>
               {
                 props.children
                   ? props.children

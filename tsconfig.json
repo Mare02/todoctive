@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/services/db.tsdb.tsrc/services/db.tsices/db.ts", "src/app/api/tasks/[taskId]", "src/utils/combinePrismaSchemas.js", "src/utils/combinePrismaSchemas.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/services/db.tsdb.tsrc/services/db.tsices/db.ts", "src/app/api/tasks/[taskId]", "src/utils/combinePrismaSchemas.js", "src/utils/combinePrismaSchemas.js", "jest.config.js", "jest.config.js"],
   "exclude": ["node_modules"]
 }

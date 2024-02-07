@@ -9,7 +9,7 @@ import BrandLogo from '@/components/BrandLogo';
 
 export default function Homepage() {
   return (
-    <Navbar position="static" height={'5rem'}>
+    <Navbar position="static" height={'5rem'} className="bg-white shadow">
       <NavbarContent>
         <NavbarBrand>
           <NavbarItem>

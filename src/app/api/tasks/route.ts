@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/services/db/prismaSingleton';
+import { handleApiError } from '@/utils/apiError';
 
 export async function GET() {
   try {
@@ -7,13 +8,12 @@ export async function GET() {
     return NextResponse.json({ msg: 'Tasks retrieved successfully', data: tasks });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ msg: 'Internal Server Error' }, { status: 500 })
+    handleApiError(error);
   }
 }
 
 export async function POST(req: Request) {
   try {
-    // Retrieve the task details from the request body
     const { name, description } = await req.json();
     const newTask = await prisma.tasks.create({
       data: {
@@ -26,6 +26,6 @@ export async function POST(req: Request) {
 
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ msg: 'Internal Server Error' }, { status: 500 });
+    handleApiError(error);
   }
 }
