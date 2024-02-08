@@ -1,5 +1,3 @@
-import Dashboard from "@/components/sections/Dashboard"
-
 export default function homePage() {
   return (
     <div>

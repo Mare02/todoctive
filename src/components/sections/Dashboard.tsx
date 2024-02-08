@@ -1,9 +1,14 @@
 'use client';
 
 import { TasksFormWrapper } from '@/components/wrappers/TasksFormWrapper';
-import { Card, CardHeader, CardBody } from '@nextui-org/react';
 import TasksTable from '@/components/TasksTable';
 import SingleTaskForm from '@/components/SingleTaskForm';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function TasksList() {
   return (
@@ -12,10 +17,12 @@ export default function TasksList() {
         {({ tasks, onDeleteTask, onEditTask, createTask }) => (
           <>
             <Card className='mb-10'>
-              <CardHeader>Create task</CardHeader>
-              <CardBody>
+              <CardHeader>
+                <CardTitle>Create task</CardTitle>
+              </CardHeader>
+              <CardContent>
                 <SingleTaskForm onCreateSubmit={createTask} />
-              </CardBody>
+              </CardContent>
             </Card>
 
             {

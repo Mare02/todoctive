@@ -1,31 +1,19 @@
-import {
-  Avatar,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from "@nextui-org/react";
 import BrandLogo from '@/components/BrandLogo';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 
 export default function Homepage() {
   return (
-    <Navbar position="static" height={'5rem'} className="bg-white shadow">
-      <NavbarContent>
-        <NavbarBrand>
-          <NavbarItem>
-            <BrandLogo></BrandLogo>
-          </NavbarItem>
-        </NavbarBrand>
-      </NavbarContent>
-
-      <NavbarContent as="div" className="items-center" justify="end">
-        <Avatar
-          isBordered
-          color="primary"
-          size="sm"
-          src="https://i.pravatar.cc/"
-        />
-      </NavbarContent>
-    </Navbar>
+    <div className="fixed top-0 left-0 right-0 h-20 bg-white shadow grid grid-cols-2 items-center px-6">
+      <div className="col-span-1 justify-self-start">
+        <BrandLogo></BrandLogo>
+      </div>
+      <div className="col-span-1 justify-self-end">
+        <Avatar>
+          <AvatarImage src="https://i.pravatar.cc/" />
+          <AvatarFallback>MO</AvatarFallback>
+        </Avatar>
+      </div>
+    </div>
   );
 }

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Input, Button, Checkbox } from '@nextui-org/react';
+
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import IEditTask from '@/interfaces/Task/IEditTask';
 import ICreateTask from '@/interfaces/Task/ICreateTask';
 
@@ -60,23 +63,26 @@ export default function SingleTaskForm(props: SingleTaskFormProps) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <Input
         type="text"
-        label="Task name"
+        placeholder='Task name'
         value={name}
         onChange={(e) => handleInputChange(e.target.value, 'name')}
       />
       <Input
         type="text"
-        label="Task description"
+        placeholder='Task description'
         value={description}
         onChange={(e) => handleInputChange(e.target.value, 'description')}
       />
       {
         props.task &&
-        <Checkbox
-          isSelected={isFinished}
-          onValueChange={(e) => handleInputChange(e, 'isFinished')}
-          size="lg"
-        >Finished</Checkbox>
+        <div className='flex items-center gap-2'>
+          <Checkbox
+            id='finished'
+            checked={isFinished}
+            onCheckedChange={(e) => handleInputChange(e, 'isFinished')}
+          >Finished</Checkbox>
+          <label htmlFor="finished">Finished</label>
+        </div>
       }
 
       {

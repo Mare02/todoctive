@@ -1,5 +1,15 @@
 import { ReactNode } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
 
 interface ConfirmModalProps {
   message: string;
@@ -15,35 +25,34 @@ interface ConfirmModalProps {
 
 export default function ModalComponent(props: ConfirmModalProps) {
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onCancel} >
-      <ModalContent>
-        <>
-          <ModalHeader className="flex flex-col gap-1">
+    <Dialog open={props.isOpen} onOpenChange={props.onCancel}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
             {props.title ? props.title : 'Modal'}
-          </ModalHeader>
-          <ModalBody>
-            <div className={(props.showProgress && props.children) ? 'disabled' : ''}>
-              {
-                props.children
-                  ? props.children
-                  : <p>{props.message}</p>
-              }
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            {
-              props.showCancel &&
-                <Button color="secondary" variant="light" onPress={props.onCancel}>Cancel</Button>
-            }
-            <Button color="danger" variant="light" onPress={props.onCancel}>
-              Cancel
-            </Button>
-            <Button color="primary" onPress={props.onConfirm} isLoading={props.showProgress}>
-              {props.confirmText ? props.confirmText : 'Save'}
-            </Button>
-          </ModalFooter>
-        </>
-      </ModalContent>
-    </Modal>
+          </DialogTitle>
+        </DialogHeader>
+        <div className={(props.showProgress && props.children) ? 'disabled' : ''}>
+          {
+            props.children
+              ? props.children
+              : <p>{props.message}</p>
+          }
+        </div>
+        <DialogFooter>
+          {
+            props.showCancel &&
+            <DialogClose asChild>
+              <Button onClick={props.onCancel}>
+                Cancel
+              </Button>
+            </DialogClose>
+          }
+          <Button color="primary" onClick={props.onConfirm}>
+            {props.confirmText ? props.confirmText : 'Save'}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

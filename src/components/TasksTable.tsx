@@ -1,6 +1,14 @@
 'use client';
 
-import {Table, Button, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@nextui-org/react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import IEditTask from '@/interfaces/Task/IEditTask';
 import { Task } from '@/models/Task/TaskModel';
@@ -17,10 +25,12 @@ export default function TasksTable(props: TaskTableProps) {
       <h3 className='text-2xl font-semibold mb-2'>Your tasks</h3>
       <Table aria-label="Example static collection table">
         <TableHeader>
-          <TableColumn>NAME</TableColumn>
-          <TableColumn>DESCRIPTION</TableColumn>
-          <TableColumn>FINISHED</TableColumn>
-          <TableColumn>ACTIONS</TableColumn>
+          <TableRow>
+            <TableHead>NAME</TableHead>
+            <TableHead>DESCRIPTION</TableHead>
+            <TableHead>FINISHED</TableHead>
+            <TableHead>ACTIONS</TableHead>
+          </TableRow>
         </TableHeader>
         <TableBody>
           {props.tasks?.map((task) => (
@@ -36,7 +46,7 @@ export default function TasksTable(props: TaskTableProps) {
               </TableCell>
               <TableCell className='flex gap-2'>
                 <Button
-                  onPress={() => {
+                  onClick={() => {
                     props.onEditTask({
                       taskId: task.id,
                       name: task.name,
@@ -47,7 +57,7 @@ export default function TasksTable(props: TaskTableProps) {
                 >Edit</Button>
                 <Button
                   color="danger"
-                  onPress={() => {props.onDeleteTask(task.id);}}
+                  onClick={() => {props.onDeleteTask(task.id);}}
                 >Delete</Button>
               </TableCell>
             </TableRow>
