@@ -17,7 +17,7 @@ export default function DashboardLayout({
         <MenuList />
       </div>
       <div className="w-full h-full overflow-y-auto">
-        <div className="py-8 bg-white px-6">
+        <div className="py-4 bg-white px-6">
           <h1 className="capitalize text-3xl font-medium">{segment || 'dashboard'}</h1>
         </div>
         <div className="px-6">
