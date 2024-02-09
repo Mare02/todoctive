@@ -19,13 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className + ' h-screen'}>
         <Navbar></Navbar>
-        <div className='px-4 sm:px-0 container mx-auto mt-28'>
-          <Providers>
-            {children}
-          </Providers>
-        </div>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

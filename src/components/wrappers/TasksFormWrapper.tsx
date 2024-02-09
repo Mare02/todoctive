@@ -1,5 +1,3 @@
-'use client';
-
 import { TaskService } from "@/services/Task/TaskService";
 import { useState, useEffect, ReactNode, FC } from 'react';
 import { Task } from '@/models/Task/TaskModel';

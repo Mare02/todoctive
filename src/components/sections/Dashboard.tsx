@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { TasksFormWrapper } from '@/components/wrappers/TasksFormWrapper';
 import TasksTable from '@/components/TasksTable';
