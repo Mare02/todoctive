@@ -99,9 +99,10 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
       <Modal
         message="Are you sure you want to delete this task?"
         title="Delete task"
+        confirmVariant="destructive"
         confirmText="Delete"
         isOpen={isConfirmModalOpen}
-        showProgress={isLoading}
+        isLoading={isLoading}
         onCancel={() => {
           setIsConfirmModalOpen(false);
           setDeleteTaskId('');
@@ -116,7 +117,7 @@ export const TasksFormWrapper: FC<TasksWrapperProps> = ({ children }) => {
         title="Edit task"
         confirmText="Save"
         isOpen={isEditModalOpen}
-        showProgress={isLoading}
+        isLoading={isLoading}
         onCancel={() => {
           setIsEditModalOpen(false);
         }}

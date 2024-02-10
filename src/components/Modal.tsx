@@ -1,38 +1,39 @@
+import { Loader2 } from "lucide-react"
 import { ReactNode } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 
 
-interface ConfirmModalProps {
+interface ModalProps {
   message: string;
   title?: string;
   confirmText?: string;
+  confirmVariant?: ButtonProps['variant'];
   onCancel: () => void;
   onConfirm: () => void;
   isOpen: boolean;
   showCancel?: boolean;
-  showProgress?: boolean;
+  isLoading?: boolean;
   children?: ReactNode;
 }
 
-export default function ModalComponent(props: ConfirmModalProps) {
+export default function ModalComponent(props: ModalProps) {
   return (
     <Dialog open={props.isOpen} onOpenChange={props.onCancel}>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className="mb-4">
           <DialogTitle>
             {props.title ? props.title : 'Modal'}
           </DialogTitle>
         </DialogHeader>
-        <div className={(props.showProgress && props.children) ? 'disabled' : ''}>
+        <div className={(props.isLoading && props.children) ? 'disabled' : ''}>
           {
             props.children
               ? props.children
@@ -48,7 +49,12 @@ export default function ModalComponent(props: ConfirmModalProps) {
               </Button>
             </DialogClose>
           }
-          <Button color="primary" onClick={props.onConfirm}>
+          <Button
+            onClick={props.onConfirm}
+            variant={props.confirmVariant}
+            disabled={props.isLoading}
+          >
+            {props.isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {props.confirmText ? props.confirmText : 'Save'}
           </Button>
         </DialogFooter>

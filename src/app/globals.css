@@ -71,3 +71,6 @@ body {
 .dashboard-layout-height {
   height: calc(100vh - 64px);
 }
+button:focus {
+  box-shadow: none !important;
+}

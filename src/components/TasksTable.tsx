@@ -56,8 +56,8 @@ export default function TasksTable(props: TaskTableProps) {
                   }}
                 >Edit</Button>
                 <Button
-                  color="danger"
                   onClick={() => {props.onDeleteTask(task.id);}}
+                  variant={'destructive'}
                 >Delete</Button>
               </TableCell>
             </TableRow>
